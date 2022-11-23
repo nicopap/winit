@@ -295,7 +295,7 @@ impl WinitWindow {
 
             let this: Option<Id<Self, Owned>> = unsafe {
                 msg_send_id![
-                    msg_send_id![WinitWindow::class(), alloc],
+                    WinitWindow::alloc(),
                     initWithContentRect: frame,
                     styleMask: masks,
                     backing: NSBackingStoreType::NSBackingStoreBuffered,
