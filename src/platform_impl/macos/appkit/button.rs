@@ -1,4 +1,4 @@
-use objc2::foundation::NSObject;
+use icrate::Foundation::NSObject;
 use objc2::{extern_class, ClassType};
 
 use super::{NSControl, NSResponder, NSView};

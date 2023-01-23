@@ -16,7 +16,7 @@ use core_foundation::runloop::{
     kCFRunLoopCommonModes, CFRunLoopAddSource, CFRunLoopGetMain, CFRunLoopSourceContext,
     CFRunLoopSourceCreate, CFRunLoopSourceRef, CFRunLoopSourceSignal, CFRunLoopWakeUp,
 };
-use objc2::foundation::is_main_thread;
+use icrate::Foundation::is_main_thread;
 use objc2::rc::{autoreleasepool, Id, Shared};
 use objc2::{msg_send_id, ClassType};
 use raw_window_handle::{AppKitDisplayHandle, RawDisplayHandle};

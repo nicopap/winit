@@ -1,9 +1,10 @@
 use once_cell::sync::Lazy;
 
-use objc2::foundation::{NSData, NSDictionary, NSNumber, NSObject, NSPoint, NSString};
+use icrate::ns_string;
+use icrate::Foundation::{NSData, NSDictionary, NSNumber, NSObject, NSPoint, NSString};
 use objc2::rc::{DefaultId, Id, Shared};
 use objc2::runtime::Sel;
-use objc2::{extern_class, extern_methods, msg_send_id, ns_string, sel, ClassType};
+use objc2::{extern_class, extern_methods, msg_send_id, sel, ClassType};
 
 use super::NSImage;
 use crate::window::CursorIcon;
@@ -100,12 +101,11 @@ extern_methods!(
 
     /// Undocumented cursors
     unsafe impl NSCursor {
-        #[sel(respondsToSelector:)]
+        #[method(respondsToSelector:)]
         fn class_responds_to(sel: Sel) -> bool;
 
-        unsafe fn from_selector_unchecked(sel: Sel) -> Id<Self, Shared> {
-            unsafe { msg_send_id![Self::class(), performSelector: sel] }
-        }
+        #[method_id(performSelector:)]
+        unsafe fn from_selector_unchecked(sel: Sel) -> Id<Self, Shared>;
 
         unsafe fn from_selector(sel: Sel) -> Option<Id<Self, Shared>> {
             if Self::class_responds_to(sel) {
@@ -149,13 +149,13 @@ extern_methods!(
             //
             // https://stackoverflow.com/a/21786835/5435443
             let root = ns_string!("/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/Resources/cursors");
-            let cursor_path = root.join_path(name);
+            let cursor_path = root.stringByAppendingPathComponent(name);
 
-            let pdf_path = cursor_path.join_path(ns_string!("cursor.pdf"));
+            let pdf_path = cursor_path.stringByAppendingPathComponent(ns_string!("cursor.pdf"));
             let image = NSImage::new_by_referencing_file(&pdf_path);
 
             // TODO: Handle PLists better
-            let info_path = cursor_path.join_path(ns_string!("info.plist"));
+            let info_path = cursor_path.stringByAppendingPathComponent(ns_string!("info.plist"));
             let info: Id<NSDictionary<NSObject, NSObject>, Shared> = unsafe {
                 msg_send_id![
                     <NSDictionary<NSObject, NSObject>>::class(),

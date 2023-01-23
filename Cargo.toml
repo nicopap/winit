@@ -68,11 +68,39 @@ ndk = "0.7.0"
 
 [target.'cfg(any(target_os = "ios", target_os = "macos"))'.dependencies]
 core-foundation = "0.9.3"
-objc2 = "=0.3.0-beta.3"
+objc2 = { version = "=0.3.0-beta.4", path = "../objc2/crates/objc2" }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 core-graphics = "0.22.3"
 dispatch = "0.2.0"
+
+[target.'cfg(target_os = "macos")'.dependencies.icrate]
+version = "0.0.1"
+path = "../objc2/crates/icrate"
+features = [
+    "Foundation",
+    "Foundation_NSArray",
+    "Foundation_NSAttributedString",
+    "Foundation_NSMutableAttributedString",
+    "Foundation_NSData",
+    "Foundation_NSDictionary",
+    "Foundation_NSString",
+    "Foundation_NSProcessInfo",
+    "Foundation_NSThread",
+    "Foundation_NSNumber",
+]
+
+[target.'cfg(target_os = "ios")'.dependencies.icrate]
+version = "0.0.1"
+path = "../objc2/crates/icrate"
+features = [
+    "Foundation",
+    "Foundation_NSArray",
+    "Foundation_NSString",
+    "Foundation_NSProcessInfo",
+    "Foundation_NSThread",
+    "Foundation_NSSet",
+]
 
 [target.'cfg(target_os = "windows")'.dependencies.windows-sys]
 version = "0.45"

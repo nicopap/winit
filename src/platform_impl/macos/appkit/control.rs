@@ -1,4 +1,4 @@
-use objc2::foundation::NSObject;
+use icrate::Foundation::NSObject;
 use objc2::{extern_class, extern_methods, ClassType};
 
 use super::{NSResponder, NSView};
@@ -15,10 +15,10 @@ extern_class!(
 
 extern_methods!(
     unsafe impl NSControl {
-        #[sel(setEnabled:)]
+        #[method(setEnabled:)]
         pub fn setEnabled(&self, enabled: bool);
 
-        #[sel(isEnabled)]
+        #[method(isEnabled)]
         pub fn isEnabled(&self) -> bool;
     }
 );

@@ -1,4 +1,4 @@
-use objc2::foundation::{NSArray, NSObject};
+use icrate::Foundation::{NSArray, NSObject};
 use objc2::rc::Shared;
 use objc2::{extern_class, extern_methods, ClassType};
 
@@ -18,7 +18,7 @@ extern_class!(
 extern_methods!(
     unsafe impl NSResponder {
         // TODO: Allow "immutably" on main thread
-        #[sel(interpretKeyEvents:)]
+        #[method(interpretKeyEvents:)]
         pub unsafe fn interpretKeyEvents(&mut self, events: &NSArray<NSEvent, Shared>);
     }
 );

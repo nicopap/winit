@@ -15,7 +15,7 @@ use core_foundation::runloop::{
     kCFRunLoopCommonModes, CFRunLoopAddTimer, CFRunLoopGetMain, CFRunLoopRef, CFRunLoopTimerCreate,
     CFRunLoopTimerInvalidate, CFRunLoopTimerRef, CFRunLoopTimerSetNextFireDate,
 };
-use objc2::foundation::{CGRect, CGSize, NSInteger, NSProcessInfo};
+use icrate::Foundation::{CGRect, CGSize, NSInteger, NSProcessInfo};
 use objc2::rc::{Id, Shared};
 use objc2::runtime::Object;
 use objc2::{msg_send, sel};
@@ -971,7 +971,7 @@ impl NSOperatingSystemVersion {
 pub fn os_capabilities() -> OSCapabilities {
     static OS_CAPABILITIES: Lazy<OSCapabilities> = Lazy::new(|| {
         let version: NSOperatingSystemVersion = unsafe {
-            let process_info = NSProcessInfo::process_info();
+            let process_info = NSProcessInfo::processInfo();
             let atleast_ios_8: bool = msg_send![
                 &process_info,
                 respondsToSelector: sel!(operatingSystemVersion)

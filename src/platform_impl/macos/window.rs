@@ -38,11 +38,11 @@ use crate::{
     },
 };
 use core_graphics::display::{CGDisplay, CGPoint};
-use objc2::declare::{Ivar, IvarDrop};
-use objc2::foundation::{
+use icrate::Foundation::{
     is_main_thread, CGFloat, NSArray, NSCopying, NSInteger, NSObject, NSPoint, NSRect, NSSize,
     NSString,
 };
+use objc2::declare::{Ivar, IvarDrop};
 use objc2::rc::{autoreleasepool, Id, Owned, Shared};
 use objc2::{declare_class, msg_send, msg_send_id, sel, ClassType};
 
@@ -121,13 +121,13 @@ declare_class!(
     }
 
     unsafe impl WinitWindow {
-        #[sel(canBecomeMainWindow)]
+        #[method(canBecomeMainWindow)]
         fn can_become_main_window(&self) -> bool {
             trace_scope!("canBecomeMainWindow");
             true
         }
 
-        #[sel(canBecomeKeyWindow)]
+        #[method(canBecomeKeyWindow)]
         fn can_become_key_window(&self) -> bool {
             trace_scope!("canBecomeKeyWindow");
             true

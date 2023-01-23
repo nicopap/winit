@@ -1,4 +1,4 @@
-use objc2::foundation::{CGRect, MainThreadMarker, NSArray, NSObject};
+use icrate::Foundation::{CGRect, MainThreadMarker, NSArray, NSObject};
 use objc2::rc::{Id, Shared};
 use objc2::{extern_class, extern_methods, msg_send_id, ClassType};
 
@@ -24,7 +24,7 @@ extern_methods!(
             unsafe { msg_send_id![self, windows] }
         }
 
-        #[sel(statusBarFrame)]
+        #[method(statusBarFrame)]
         pub fn statusBarFrame(&self) -> CGRect;
     }
 );

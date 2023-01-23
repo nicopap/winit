@@ -1,11 +1,11 @@
 use std::os::raw::c_ushort;
 
-use objc2::encode::{Encode, Encoding};
-use objc2::foundation::{
+use icrate::Foundation::{
     CGFloat, NSCopying, NSInteger, NSObject, NSPoint, NSString, NSTimeInterval, NSUInteger,
 };
+use objc2::encode::{Encode, Encoding};
 use objc2::rc::{Id, Shared};
-use objc2::{extern_class, extern_methods, msg_send_id, ClassType};
+use objc2::{extern_class, extern_methods, ClassType};
 
 extern_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
@@ -24,6 +24,17 @@ extern_class!(
 
 extern_methods!(
     unsafe impl NSEvent {
+        #[method_id(
+            otherEventWithType:
+            location:
+            modifierFlags:
+            timestamp:
+            windowNumber:
+            context:
+            subtype:
+            data1:
+            data2:
+        )]
         unsafe fn otherEventWithType(
             type_: NSEventType,
             location: NSPoint,
@@ -34,22 +45,7 @@ extern_methods!(
             subtype: NSEventSubtype,
             data1: NSInteger,
             data2: NSInteger,
-        ) -> Id<Self, Shared> {
-            unsafe {
-                msg_send_id![
-                    Self::class(),
-                    otherEventWithType: type_,
-                    location: location,
-                    modifierFlags: flags,
-                    timestamp: time,
-                    windowNumber: window_num,
-                    context: context,
-                    subtype: subtype,
-                    data1: data1,
-                    data2: data2,
-                ]
-            }
-        }
+        ) -> Id<Self, Shared>;
 
         pub fn dummy() -> Id<Self, Shared> {
             unsafe {
@@ -67,6 +63,18 @@ extern_methods!(
             }
         }
 
+        #[method_id(
+            keyEventWithType:
+            location:
+            modifierFlags:
+            timestamp:
+            windowNumber:
+            context:
+            characters:
+            charactersIgnoringModifiers:
+            isARepeat:
+            keyCode:
+        )]
         pub fn keyEventWithType(
             type_: NSEventType,
             location: NSPoint,
@@ -78,96 +86,78 @@ extern_methods!(
             characters_ignoring_modifiers: &NSString,
             is_a_repeat: bool,
             scancode: c_ushort,
-        ) -> Id<Self, Shared> {
-            unsafe {
-                msg_send_id![
-                    Self::class(),
-                    keyEventWithType: type_,
-                    location: location,
-                    modifierFlags: modifier_flags,
-                    timestamp: timestamp,
-                    windowNumber: window_num,
-                    context: context,
-                    characters: characters,
-                    charactersIgnoringModifiers: characters_ignoring_modifiers,
-                    isARepeat: is_a_repeat,
-                    keyCode: scancode,
-                ]
-            }
-        }
+        ) -> Id<Self, Shared>;
 
-        #[sel(locationInWindow)]
+        #[method(locationInWindow)]
         pub fn locationInWindow(&self) -> NSPoint;
 
         // TODO: MainThreadMarker
-        #[sel(pressedMouseButtons)]
+        #[method(pressedMouseButtons)]
         pub fn pressedMouseButtons() -> NSUInteger;
 
-        #[sel(modifierFlags)]
+        #[method(modifierFlags)]
         pub fn modifierFlags(&self) -> NSEventModifierFlags;
 
-        #[sel(type)]
+        #[method(type)]
         pub fn type_(&self) -> NSEventType;
 
         // In AppKit, `keyCode` refers to the position (scancode) of a key rather than its character,
         // and there is no easy way to navtively retrieve the layout-dependent character.
         // In winit, we use keycode to refer to the key's character, and so this function aligns
         // AppKit's terminology with ours.
-        #[sel(keyCode)]
+        #[method(keyCode)]
         pub fn scancode(&self) -> c_ushort;
 
-        #[sel(magnification)]
+        #[method(magnification)]
         pub fn magnification(&self) -> CGFloat;
 
-        #[sel(phase)]
+        #[method(phase)]
         pub fn phase(&self) -> NSEventPhase;
 
-        #[sel(momentumPhase)]
+        #[method(momentumPhase)]
         pub fn momentumPhase(&self) -> NSEventPhase;
 
-        #[sel(deltaX)]
+        #[method(deltaX)]
         pub fn deltaX(&self) -> CGFloat;
 
-        #[sel(deltaY)]
+        #[method(deltaY)]
         pub fn deltaY(&self) -> CGFloat;
 
-        #[sel(buttonNumber)]
+        #[method(buttonNumber)]
         pub fn buttonNumber(&self) -> NSInteger;
 
-        #[sel(scrollingDeltaX)]
+        #[method(scrollingDeltaX)]
         pub fn scrollingDeltaX(&self) -> CGFloat;
 
-        #[sel(scrollingDeltaY)]
+        #[method(scrollingDeltaY)]
         pub fn scrollingDeltaY(&self) -> CGFloat;
 
-        #[sel(hasPreciseScrollingDeltas)]
+        #[method(hasPreciseScrollingDeltas)]
         pub fn hasPreciseScrollingDeltas(&self) -> bool;
 
-        #[sel(rotation)]
+        #[method(rotation)]
         pub fn rotation(&self) -> f32;
 
-        #[sel(pressure)]
+        #[method(pressure)]
         pub fn pressure(&self) -> f32;
 
-        #[sel(stage)]
+        #[method(stage)]
         pub fn stage(&self) -> NSInteger;
 
-        #[sel(isARepeat)]
+        #[method(isARepeat)]
         pub fn is_a_repeat(&self) -> bool;
 
-        #[sel(windowNumber)]
+        #[method(windowNumber)]
         pub fn window_number(&self) -> NSInteger;
 
-        #[sel(timestamp)]
+        #[method(timestamp)]
         pub fn timestamp(&self) -> NSTimeInterval;
 
-        pub fn characters(&self) -> Option<Id<NSString, Shared>> {
-            unsafe { msg_send_id![self, characters] }
-        }
+        #[method_id(characters)]
+        pub fn characters(&self) -> Option<Id<NSString, Shared>>;
 
-        pub fn charactersIgnoringModifiers(&self) -> Option<Id<NSString, Shared>> {
-            unsafe { msg_send_id![self, charactersIgnoringModifiers] }
-        }
+        #[method_id(charactersIgnoringModifiers)]
+        pub fn charactersIgnoringModifiers(&self) -> Option<Id<NSString, Shared>>;
 
         pub fn lalt_pressed(&self) -> bool {
             let raw_modifiers = self.modifierFlags().bits() as u32;

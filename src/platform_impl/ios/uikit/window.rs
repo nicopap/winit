@@ -1,4 +1,4 @@
-use objc2::foundation::NSObject;
+use icrate::Foundation::NSObject;
 use objc2::rc::{Id, Shared};
 use objc2::{extern_class, extern_methods, msg_send_id, ClassType};
 
@@ -20,16 +20,16 @@ extern_methods!(
             unsafe { msg_send_id![self, screen] }
         }
 
-        #[sel(setScreen:)]
+        #[method(setScreen:)]
         pub fn setScreen(&self, screen: &UIScreen);
 
-        #[sel(setHidden:)]
+        #[method(setHidden:)]
         pub fn setHidden(&self, flag: bool);
 
-        #[sel(makeKeyAndVisible)]
+        #[method(makeKeyAndVisible)]
         pub fn makeKeyAndVisible(&self);
 
-        #[sel(isKeyWindow)]
+        #[method(isKeyWindow)]
         pub fn isKeyWindow(&self) -> bool;
     }
 );
