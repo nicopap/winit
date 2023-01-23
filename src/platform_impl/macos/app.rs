@@ -9,7 +9,7 @@ use crate::event::{DeviceEvent, ElementState, Event};
 
 declare_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
-    pub(super) struct WinitApplication {}
+    pub(super) struct WinitApplication;
 
     unsafe impl ClassType for WinitApplication {
         #[inherits(NSResponder, NSObject)]

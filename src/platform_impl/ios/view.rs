@@ -26,7 +26,7 @@ use crate::{
 };
 
 declare_class!(
-    pub(crate) struct WinitView {}
+    pub(crate) struct WinitView;
 
     unsafe impl ClassType for WinitView {
         #[inherits(UIResponder, NSObject)]
@@ -410,7 +410,7 @@ impl WinitViewController {
 
 declare_class!(
     #[derive(Debug, PartialEq, Eq, Hash)]
-    pub(crate) struct WinitUIWindow {}
+    pub(crate) struct WinitUIWindow;
 
     unsafe impl ClassType for WinitUIWindow {
         #[inherits(UIResponder, NSObject)]
@@ -478,7 +478,7 @@ impl WinitUIWindow {
 }
 
 declare_class!(
-    pub struct WinitApplicationDelegate {}
+    pub struct WinitApplicationDelegate;
 
     unsafe impl ClassType for WinitApplicationDelegate {
         type Super = NSObject;
